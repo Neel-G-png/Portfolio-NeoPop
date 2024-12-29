@@ -12,31 +12,25 @@ const NeopopSection = ({ title, children, className = "" }) => {
   );
 };
 
-// const ExperienceCard = ({ title, company, duration, description, isLeft, type }) => (
-//     <motion.div 
-//       initial={{ opacity: 0, x: isLeft ? -50 : 50 }}
-//       whileInView={{ opacity: 1, x: 0 }}
-//       transition={{ duration: 0.5 }}
-//       className={`relative w-full md:w-[45%] ${isLeft ? 'md:mr-auto' : 'md:ml-auto'}`}
-//     >
-//       <div className="bg-white border-4 border-neopop-dark shadow-neopop p-6 rounded-lg
-//                       hover:shadow-neopop-lg transition-all duration-300 cursor-pointer">
-//         {/* Experience Type Badge */}
-//         <div className={`inline-block px-3 py-1 rounded mb-3 text-sm font-medium ${
-//           type === 'professional' 
-//             ? 'bg-neopop-primary text-white' 
-//             : 'bg-neopop-secondary text-neopop-dark'
-//         }`}>
-//           {type === 'professional' ? 'Professional' : 'Academic'}
-//         </div>
-        
-//         <h3 className="text-2xl font-bold text-neopop-primary mb-2">{title}</h3>
-//         <h4 className="text-xl font-semibold text-neopop-dark mb-2">{company}</h4>
-//         <p className="text-neopop-secondary font-medium mb-4">{duration}</p>
-//         <p className="text-neopop-dark">{description}</p>
-//       </div>
-//     </motion.div>
-//   );
+const SectionBanner = ({ type }) => (
+    <motion.div 
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className={`
+        absolute top-0 ${type === 'professional' ? 'right-[5%]' : 'left-[5%]'}
+        w-[40%] py-3 px-6 
+        ${type === 'professional' ? 'bg-neopop-primary' : 'bg-neopop-secondary'}
+        border-4 border-neopop-dark 
+        rounded-lg shadow-neopop
+        text-center z-30
+      `}
+    >
+      <h3 className={`text-2xl font-bold ${type === 'professional' ? 'text-white' : 'text-neopop-dark'}`}>
+        {type === 'professional' ? 'Professional' : 'Academic'}
+      </h3>
+    </motion.div>
+  );
 
 const BranchingTimeline = ({ experiences }) => {
     // Calculate total height based on actual number of cards on each side
@@ -118,8 +112,8 @@ const BranchingTimeline = ({ experiences }) => {
     );
   };
   
-  const ExperienceCard = ({ title, company, duration, description, type, position, index }) => {
-    const yOffset = index * 400; // Increased spacing between cards
+  const ExperienceCard = ({ title, company, companyUrl, duration, description, type, position, index }) => {
+    const yOffset = index * 400 + 100; // Added offset to accommodate banner
   
     return (
       <div 
@@ -135,18 +129,23 @@ const BranchingTimeline = ({ experiences }) => {
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
           className="bg-white border-4 border-neopop-dark shadow-neopop p-6 rounded-lg
-                     hover:shadow-neopop-lg transition-all duration-300"
+                     hover:shadow-neopop-lg transition-all duration-300 z-20"
         >
-          <div className={`inline-block px-3 py-1 rounded mb-3 text-sm font-medium ${
-            type === 'professional' 
-              ? 'bg-neopop-primary text-white' 
-              : 'bg-neopop-secondary text-neopop-dark'
-          }`}>
-            {type === 'professional' ? 'Professional' : 'Academic'}
-          </div>
-          
           <h3 className="text-2xl font-bold text-neopop-primary mb-2">{title}</h3>
-          <h4 className="text-xl font-semibold text-neopop-dark mb-2">{company}</h4>
+          {companyUrl ? (
+            <a 
+              href={companyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xl font-semibold text-neopop-dark mb-2 hover:text-neopop-primary 
+                       transition-colors duration-300 underline decoration-dashed 
+                       underline-offset-4 inline-block"
+            >
+              {company}
+            </a>
+          ) : (
+            <h4 className="text-xl font-semibold text-neopop-dark mb-2">{company}</h4>
+          )}
           <p className="text-neopop-secondary font-medium mb-4">{duration}</p>
           <p className="text-neopop-dark">{description}</p>
         </motion.div>
@@ -201,7 +200,7 @@ const ProjectCard = ({ title, description, tags, githubUrl, demoUrl, image }) =>
                        rounded border-2 border-neopop-dark hover:bg-neopop-primary 
                        transition-colors duration-300"
             >
-              View Code
+              Dive Deeper
             </a>
             {/* {demoUrl && (
               <a
@@ -316,6 +315,7 @@ const Portfolio = () => {
     {
         title: "Graduate Teaching Assistant - Operating Systems",
         company: "NYU - Tandon School Engeering",
+        companyUrl: "https://engineering.nyu.edu/sites/default/files/2020-10/CS-GY%206233%20Intro%20Operating%20Systems.pdf",
         duration: "Sept 2024 - Dec 2024",
         description: "As a Graduate Teaching Assistant for Operating Systems at NYU, I designed assignments to teach OS concepts using C and xv6, created scripts for efficient grading, and supported students through daily interactions and weekly quizzes.",
         type: "academic"
@@ -323,6 +323,7 @@ const Portfolio = () => {
     {
         title: "Teaching Assistant - Machine Learning",
         company: "NYU - Courant Institute of Mathematical Sciences",
+        companyUrl: "https://www.nyu.edu/content/dam/nyu/globalPrgms/documents/paris/academics/Syllabi/fall-2024/Syl_Paris_CSCI-UA%209473_Instructor_Fall%202024.pdf",
         duration: "Sept 2024 - Dec 2024",
         description: "As a Teaching Assistant for Machine Learning at NYU Courant, I graded assignments and projects while providing support to students by addressing their doubts and clarifying concepts.",
         type: "academic"
@@ -330,6 +331,7 @@ const Portfolio = () => {
     {
       title: "Data Science and Strategy Intern",
       company: "EVgo",
+      companyUrl: "https://evgo.com/",
       duration: "June 2024 - Aug 2024",
       description: "Embedded within EVgo's finance team, I contributed to data migration efforts to Snowflake, enhancing data accessibility and efficiency. I also focused on optimizing data retrieval speed and refining data modeling processes to support strategic decision-making.",
       type: "professional"
@@ -337,6 +339,7 @@ const Portfolio = () => {
     {
       title: "Software Engineer",
       company: "ElasticRun",
+      companyUrl: "https://www.elastic.run/",
       duration: "July 2021 - July 2023",
       description: "At ElasticRun, I developed a scalable vehicle routing engine, optimized logistics operations, and reduced costs through advanced algorithms and data-driven solutions. I improved decision-making with actionable insights, resolved data anomalies efficiently, and collaborated in an Agile environment to enhance user experience.",
       type: "professional"
@@ -344,6 +347,7 @@ const Portfolio = () => {
     {
       title: "Computer Vision Intern",
       company: "Softedge Infotech",
+      companyUrl: "https://softedge.in/",
       duration: "Jan 2021 - Mar 2021",
       description: "At SoftEdge Infotech, I developed AI-powered AR solutions using computer vision, enhancing performance by optimizing code and leveraging advanced frameworks. I contributed to creating efficient, high-quality solutions tailored to client needs.",
       type: "professional"
@@ -399,26 +403,50 @@ const Portfolio = () => {
 
   const projects = [
     {
-      title: "AI Chat Assistant",
-      description: "A real-time chat application powered by machine learning for intelligent responses.",
-      tags: ["Python", "TensorFlow", "React", "WebSockets"],
-      githubUrl: "https://github.com/yourusername/ai-chat",
+      title: "K.E.V.I.N. - Ecosystem for Students",
+      description: "A real-time cloud-based Notion integrated chat bot with job application tracker. Build with GCP and vertex AI to enable users to chat with their notion notes seamlessly while also keeping track of their job applications.",
+      tags: ["GCP", "RAG", "Firebase", "Flask", "ML", "LLM"],
+      githubUrl: "https://github.com/Neel-G-png/Talk2Doc",
       demoUrl: "https://ai-chat-demo.com",
-      image: "/api/placeholder/400/320"
+      image: ""
     },
     {
-      title: "Data Analytics Dashboard",
-      description: "Interactive dashboard for visualizing and analyzing large datasets.",
-      tags: ["React", "D3.js", "Node.js", "PostgreSQL"],
-      githubUrl: "https://github.com/yourusername/analytics-dashboard",
+        title: "LexiLens",
+        description: "A cloud-based photo album app enabling object-based image search using AWS Rekognition and OpenSearch. Built with a Flask frontend, serverless architecture via Lambda and API Gateway, and automated deployments with CodeDeploy and CloudFormation.",
+        tags: ["AWS", "Rekognition", "Serverless", "Cloud Deployent"],
+        githubUrl: "https://github.com/Neel-G-png/LexiLens",
+        demoUrl: null,
+        image: "../assets/LexiLens.png"
+    },
+    {
+      title: "NYC Crash No-Mo!",
+      description: "A real time crash probability predictor based on road networks, weather, and traffic conditions.",
+      tags: ["Pyspark", "Streamlit", "Big Data", "Dask"],
+      githubUrl: "https://github.com/Neel-G-png/NYC-Crash-no-mo",
       demoUrl: "https://dashboard-demo.com",
       image: "/api/placeholder/400/320"
     },
     {
-      title: "E-commerce Platform",
-      description: "Full-stack e-commerce solution with payment integration and admin dashboard.",
-      tags: ["Next.js", "Stripe", "MongoDB", "TypeScript"],
-      githubUrl: "https://github.com/yourusername/ecommerce",
+        title: "Alfred The Dining Concierge",
+        description: "An AWS cloud-based chatbot built to provide restaurant recommendations. Users specify preferences via Lex, with requests processed through SQS and data fetched from OpenSearch and DynamoDB. Results are emailed using SES for a seamless experience.",
+        tags: ["AWS", "Opensearch", "Lex", "DynamoDB"],
+        githubUrl: "https://github.com/Neel-G-png/Alfred-Dining-Concierge",
+        demoUrl: "https://dashboard-demo.com",
+        image: "/api/placeholder/400/320"
+    },
+    {
+        title: "TIFU-KNN Next Basket Recommendation",
+        description: "Developed a next basket recommendation system using TIFU-KNN, leveraging temporal decay and item categories to optimize predictions. Streamlined data processing and implemented algorithms to enhance recommendation accuracy and efficiency.",
+        tags: ["Data Science", "Machine Learning", "Recommendation Systems"],
+        githubUrl: "https://github.com/Neel-G-png/TIFU-KNN",
+        demoUrl: null,
+        image: "/api/placeholder/400/320"
+    },
+    {
+      title: "Augmented Reality Photo Frame",
+      description: "An Augmented reality script to turn a static photo frame into an AR video player using OpenCV and Aruco markers.",
+      tags: ["OpenCV", "Computer Vision", "Fun"],
+      githubUrl: "https://github.com/Neel-G-png/AR-frame-gift",
       demoUrl: null,
       image: "/api/placeholder/400/320"
     },
@@ -547,26 +575,32 @@ const Portfolio = () => {
           Experience
         </h2>
 
-        {/* Timeline container */}
-        <div className="relative mt-24 mb-24"> {/* Added bottom margin */}
-          <BranchingTimeline experiences={organizedExperiences} />
+        <div className="relative">
+          {/* Timeline container with adjusted spacing */}
+          <div className="relative mt-16 mb-24">
+            {/* Section Banners */}
+            <SectionBanner type="professional" />
+            <SectionBanner type="academic" />
 
-          {/* Experience cards container */}
-          <div 
-            className="relative" 
-            style={{ 
-              height: `${(Math.max(
-                experiences.filter(exp => exp.type === 'professional').length,
-                experiences.filter(exp => exp.type === 'academic').length
-              ) * 400)}px`
-            }}
-          >
-            {organizedExperiences.map((experience) => (
-              <ExperienceCard 
-                key={`${experience.type}-${experience.index}`}
-                {...experience}
-              />
-            ))}
+            <BranchingTimeline experiences={organizedExperiences} />
+
+            {/* Experience cards container */}
+            <div 
+              className="relative" 
+              style={{ 
+                height: `${(Math.max(
+                  experiences.filter(exp => exp.type === 'professional').length,
+                  experiences.filter(exp => exp.type === 'academic').length
+                ) * 400) + 100}px` // Added extra height for banner
+              }}
+            >
+              {organizedExperiences.map((experience) => (
+                <ExperienceCard 
+                  key={`${experience.type}-${experience.index}`}
+                  {...experience}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </motion.div>
@@ -609,7 +643,7 @@ const Portfolio = () => {
           className="mt-16 text-center"
         >
           <a
-            href="https://github.com/yourusername"
+            href="https://github.com/Neel-G-png"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block bg-neopop-dark text-white px-8 py-4 rounded-lg
@@ -617,7 +651,7 @@ const Portfolio = () => {
                      transition-all duration-300 shadow-neopop hover:shadow-neopop-lg
                      font-bold text-lg"
           >
-            View More on GitHub →
+            Checkout my GitHub →
           </a>
         </motion.div>
       </motion.div>
