@@ -1,6 +1,11 @@
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import confetti from 'canvas-confetti';
+import CuteSvg from './CuteSvg';
+import DisplayLottie from './DisplayLottie';
+import landingPerson from '../assets/lottie/landingPerson';
+import codingPerson from '../assets/lottie/codingPerson';
+import { Github, Linkedin, Mail } from 'lucide-react';
 
 // Create the NeopopSection component separately
 const NeopopSection = ({ title, children, className = "" }) => {
@@ -249,56 +254,55 @@ const Portfolio = () => {
   // Navigation items
   const navItems = [
     { id: 'home', label: 'Home', ref: homeRef },
-    { id: 'about', label: 'About', ref: aboutRef },
+    { id: 'skills', label: 'Skills', ref: skillsRef },
     { id: 'experience', label: 'Experience', ref: experienceRef },
     { id: 'projects', label: 'Projects', ref: projectsRef },
-    { id: 'skills', label: 'Skills', ref: skillsRef },
     { id: 'survey', label: 'Fun Survey', ref: surveyRef }
   ];
 
   // About section content
-  const aboutContent = (
-    <div className="space-y-8">
-      <NeopopSection title="Who Am I?">
-        <p className="text-lg text-neopop-dark leading-relaxed">
-          I'm a passionate software engineer with a love for creating intuitive and 
-          engaging web experiences. My journey in tech started with...
-        </p>
-      </NeopopSection>
+//   const aboutContent = (
+//     <div className="space-y-8">
+//       <NeopopSection title="Who Am I?">
+//         <p className="text-lg text-neopop-dark leading-relaxed">
+//           I'm a passionate software engineer with a love for creating intuitive and 
+//           engaging web experiences. My journey in tech started with...
+//         </p>
+//       </NeopopSection>
 
-      <NeopopSection title="My Journey">
-        <div className="space-y-4">
-          <div className="flex items-center space-x-4">
-            <div className="w-2 h-2 bg-neopop-primary rounded-full"></div>
-            <p className="text-lg text-neopop-dark">Started coding at age 12</p>
-          </div>
-          <div className="flex items-center space-x-4">
-            <div className="w-2 h-2 bg-neopop-secondary rounded-full"></div>
-            <p className="text-lg text-neopop-dark">Graduated with CS degree</p>
-          </div>
-          <div className="flex items-center space-x-4">
-            <div className="w-2 h-2 bg-neopop-accent rounded-full"></div>
-            <p className="text-lg text-neopop-dark">Started first tech job</p>
-          </div>
-        </div>
-      </NeopopSection>
+//       <NeopopSection title="My Journey">
+//         <div className="space-y-4">
+//           <div className="flex items-center space-x-4">
+//             <div className="w-2 h-2 bg-neopop-primary rounded-full"></div>
+//             <p className="text-lg text-neopop-dark">Started coding at age 12</p>
+//           </div>
+//           <div className="flex items-center space-x-4">
+//             <div className="w-2 h-2 bg-neopop-secondary rounded-full"></div>
+//             <p className="text-lg text-neopop-dark">Graduated with CS degree</p>
+//           </div>
+//           <div className="flex items-center space-x-4">
+//             <div className="w-2 h-2 bg-neopop-accent rounded-full"></div>
+//             <p className="text-lg text-neopop-dark">Started first tech job</p>
+//           </div>
+//         </div>
+//       </NeopopSection>
 
-      <NeopopSection title="What I Love">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {['Problem Solving', 'Clean Code', 'Learning', 'Teaching'].map((item) => (
-            <div 
-              key={item}
-              className="bg-neopop-light p-4 rounded border-2 border-neopop-dark 
-                         hover:bg-neopop-primary hover:text-white transition-colors 
-                         duration-300 cursor-pointer text-center font-medium"
-            >
-              {item}
-            </div>
-          ))}
-        </div>
-      </NeopopSection>
-    </div>
-  );
+//       <NeopopSection title="What I Love">
+//         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//           {['Problem Solving', 'Clean Code', 'Learning', 'Teaching'].map((item) => (
+//             <div 
+//               key={item}
+//               className="bg-neopop-light p-4 rounded border-2 border-neopop-dark 
+//                          hover:bg-neopop-primary hover:text-white transition-colors 
+//                          duration-300 cursor-pointer text-center font-medium"
+//             >
+//               {item}
+//             </div>
+//           ))}
+//         </div>
+//       </NeopopSection>
+//     </div>
+//   );
 
   const getDateValue = (dateStr) => {
     if (dateStr === 'Present') return new Date().getTime();
@@ -465,6 +469,7 @@ const Portfolio = () => {
   return (
     <div className="relative min-h-screen">
       {/* Fixed Navigation */}
+      <div className="fixed inset-0 bg-gradient-to-r from-neopop-primary/5 to-neopop-secondary/5 blur-3xl pointer-events-none" />
       <nav className="fixed top-0 left-0 right-0 z-50 bg-neopop-dark/90 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-4">
           <ul className="flex justify-center space-x-8 py-4">
@@ -487,90 +492,189 @@ const Portfolio = () => {
       </nav>
 
       {/* Main Content */}
+      <main className="relative w-full">
       <div>
         {/* Landing Section */}
-        <section ref={homeRef} className="h-screen flex flex-col items-center justify-center relative overflow-hidden bg-neopop-dark">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center z-10"
-          >
-            {!isRevealed ? (
-              <>
-                <h1 className="text-6xl font-bold mb-8 text-neopop-light">
-                  Welcome to My Portfolio
-                </h1>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={triggerConfetti}
-                  className="px-8 py-4 bg-neopop-primary text-white rounded-lg shadow-lg
-                            border-4 border-neopop-secondary hover:bg-opacity-90
-                            transition-all duration-300 text-xl font-bold"
-                >
-                  For Recruiters
-                </motion.button>
-              </>
-            ) : (
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ type: "spring", stiffness: 260, damping: 20 }}
-              >
-                <h1 className="text-7xl font-bold mb-6 bg-gradient-to-r from-neopop-primary to-neopop-secondary 
-                             text-transparent bg-clip-text animate-gradient">
-                  Neel Gandhi, your next hire
-                </h1>
-                <p className="text-neopop-light text-xl">
-                  Scroll down to learn more about me
-                </p>
-              </motion.div>
-            )}
-          </motion.div>
-
-          <motion.div
-            animate={{
-              scale: isRevealed ? [1, 1.2] : 1,
-              opacity: isRevealed ? [0.5, 0.8] : 0.5
-            }}
-            transition={{
-              duration: 2,
-              repeat: isRevealed ? Infinity : 0,
-              repeatType: "reverse"
-            }}
-            className="absolute inset-0 bg-gradient-to-r from-neopop-primary/20 to-neopop-secondary/20 
-                       blur-3xl -z-10"
-          />
-        </section>
-
-        {/* About Section */}
-        <section 
-          ref={aboutRef} 
-          className="min-h-screen bg-gray-50 p-8 pt-24 scroll-mt-16"
+        <section ref={homeRef} className="min-h-screen flex items-center relative w-full">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      {/* Left Content */}
+      <motion.div
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8 }}
+        className="text-left z-10"
+      >
+        {/* Animated Heading */}
+        <motion.h1 
+          key={isRevealed ? 'revealed' : 'initial'}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className={`text-6xl font-bold mb-8 ${
+            isRevealed 
+              ? 'bg-gradient-to-r from-neopop-primary to-neopop-secondary text-transparent bg-clip-text animate-gradient'
+              : 'text-neopop-dark'
+          }`}
         >
-          <motion.div
+          {isRevealed ? "I'm Neel, your next hire" : "Hi 👋, I'm Neel! Nice to meet you."}
+        </motion.h1>
+
+        {/* Rest of the content stays constant */}
+        <p className="text-xl text-neopop-dark/80 mb-8">
+        Experienced software engineer and current Master’s student in Computer Science at NYU, specializing in big data, cloud computing, and machine learning. Passionate about creating impactful solutions, I’ve worked on projects like scalable logistics systems and LLM-powered assistants. I enjoy exploring new technologies, collaborating, and making tech more accessible and efficient.
+        </p>
+        
+        {/* Social Icons */}
+        <div className="flex space-x-6 mb-8">
+          <motion.a
+            href="https://github.com/yourusername"
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ y: -5 }}
+            className="text-neopop-dark hover:text-neopop-primary transition-colors duration-300"
+          >
+            <Github size={32} />
+          </motion.a>
+          <motion.a
+            href="https://linkedin.com/in/yourusername"
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ y: -5 }}
+            className="text-neopop-dark hover:text-neopop-secondary transition-colors duration-300"
+          >
+            <Linkedin size={32} />
+          </motion.a>
+          <motion.a
+            href="mailto:your.email@example.com"
+            whileHover={{ y: -5 }}
+            className="text-neopop-dark hover:text-neopop-accent transition-colors duration-300"
+          >
+            <Mail size={32} />
+          </motion.a>
+        </div>
+      </motion.div>
+
+      {/* Right Animation */}
+      <motion.div
+        initial={{ opacity: 0, x: 50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8 }}
+        className="relative z-10 h-[500px]"
+      >
+        <DisplayLottie animationData={landingPerson} />
+      </motion.div>
+    </div>
+
+    {/* Recruiter Button - Positioned at bottom left */}
+    <motion.button
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      onClick={triggerConfetti}
+      className="absolute bottom-8 left-8 px-6 py-3 bg-neopop-primary text-white 
+                rounded-lg shadow-neopop border-2 border-neopop-dark 
+                hover:bg-opacity-90 transition-all duration-300 text-base font-bold z-20"
+    >
+      For Recruiters
+    </motion.button>
+  </div>
+
+  {/* Background Gradient */}
+</section>
+
+        {/* Skills Section */}
+        <section 
+          ref={skillsRef} 
+          className="w-full scroll-mt-16"
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+        <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="max-w-4xl mx-auto"
-          >
-            <h2 className="text-4xl font-bold text-neopop-dark mb-8 
-                       bg-gradient-to-r from-neopop-primary to-neopop-secondary 
-                       text-transparent bg-clip-text">
-              About Me
+            className="max-w-7xl mx-auto"
+        >
+            <h2 className="text-4xl font-bold text-center mb-12 
+                        bg-gradient-to-r from-neopop-primary to-neopop-secondary 
+                        text-transparent bg-clip-text">
+            Skills
             </h2>
-            {aboutContent}
-          </motion.div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Left Side - Lottie Animation */}
+            <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+                className="relative h-[500px] flex items-center justify-center lg:order-1"
+            >
+                <DisplayLottie animationData={codingPerson} />
+            </motion.div>
+
+            {/* Right Side - Skills Content */}
+            <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+                className="space-y-8 lg:order-2"
+            >
+                {/* Skills Categories */}
+                <div>
+                <h3 className="text-2xl font-bold text-neopop-dark mb-6">Technologies</h3>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    {["React", "Node.js", "Python", "JavaScript", "TypeScript", "MongoDB"].map((skill) => (
+                    <div 
+                        key={skill}
+                        className="bg-neopop-light p-4 rounded-lg border-4 border-neopop-dark
+                                hover:bg-neopop-secondary transition-colors duration-300
+                                text-center font-bold shadow-neopop hover:shadow-neopop-lg"
+                    >
+                        {skill}
+                    </div>
+                    ))}
+                </div>
+                </div>
+
+                {/* Tools */}
+                <div>
+                <h3 className="text-2xl font-bold text-neopop-dark mb-6">Tools & Platforms</h3>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    {["Git", "Docker", "AWS", "VS Code", "Figma", "Jira"].map((tool) => (
+                    <div 
+                        key={tool}
+                        className="bg-neopop-light p-4 rounded-lg border-4 border-neopop-dark
+                                hover:bg-neopop-primary hover:text-white transition-colors duration-300
+                                text-center font-bold shadow-neopop hover:shadow-neopop-lg"
+                    >
+                        {tool}
+                    </div>
+                    ))}
+                </div>
+                </div>
+
+                {/* Additional Skills or Summary */}
+                <div className="bg-white border-4 border-neopop-dark rounded-lg p-6 shadow-neopop">
+                <p className="text-lg text-neopop-dark">
+                    Passionate about clean code, performance optimization, and creating 
+                    seamless user experiences. Always eager to learn and adapt to new technologies.
+                </p>
+                </div>
+            </motion.div>
+            </div>
+        </motion.div>
+        </div>
         </section>
 
         {/* Other sections remain the same */}
         {/* Experience Section */}
         <section 
-      ref={experienceRef} 
-      className="bg-white p-8 pt-24 scroll-mt-16"
-    >
+          ref={experienceRef} 
+          className="w-full scroll-mt-16"
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -613,13 +717,15 @@ const Portfolio = () => {
           </div>
         </div>
       </motion.div>
+      </div>
     </section>
 
         {/* Projects Section */}
         <section 
-      ref={projectsRef} 
-      className="min-h-screen bg-gray-50 p-8 pt-24 scroll-mt-16"
-    >
+          ref={projectsRef} 
+          className="w-full scroll-mt-16"
+        >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -644,30 +750,15 @@ const Portfolio = () => {
           ))}
         </div>
       </motion.div>
+    </div>
     </section>
-
-        {/* Skills Section */}
-        <section 
-          ref={skillsRef} 
-          className="min-h-screen bg-white p-8 pt-24 scroll-mt-16"
-        >
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="max-w-4xl mx-auto"
-          >
-            <h2 className="text-4xl font-bold text-neopop-dark mb-8">Skills</h2>
-            {/* Add your content here */}
-          </motion.div>
-        </section>
 
         {/* Survey Section */}
         <section 
           ref={surveyRef} 
-          className="min-h-screen bg-gray-50 p-8 pt-24 scroll-mt-16"
+          className="w-full scroll-mt-16"
         >
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -678,8 +769,10 @@ const Portfolio = () => {
             <h2 className="text-4xl font-bold text-neopop-dark mb-8">Fun Survey</h2>
             {/* Form will go here */}
           </motion.div>
+          </div>
         </section>
       </div>
+      </main>
     </div>
   );
 };
