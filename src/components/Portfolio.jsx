@@ -153,28 +153,41 @@ const BranchingTimeline = ({ experiences }) => {
     );
   };
 
-const ProjectCard = ({ title, description, tags, githubUrl, demoUrl, image }) => {
+  const ProjectCard = ({ title, description, tags, githubUrl, demoUrl, image }) => {
+    // Import image dynamically
+    const imageUrl = new URL(`../assets/${image}`, import.meta.url).href;
+  
     return (
-      <motion.div
+      <motion.a
+        href={githubUrl}
+        target="_blank"
+        rel="noopener noreferrer"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        whileHover={{ y: -8 }}
+        whileTap={{ y: -4 }}
+        transition={{ duration: 0.2 }}
         className="bg-white border-4 border-neopop-dark shadow-neopop rounded-lg 
-                   hover:shadow-neopop-lg transition-all duration-300 overflow-hidden"
+                   hover:shadow-neopop-lg transition-all duration-300 overflow-hidden
+                   cursor-pointer group block"
       >
         {/* Preview Image */}
         <div className="h-48 bg-neopop-dark relative overflow-hidden">
           <img 
-            src={image || "/api/placeholder/400/320"} 
+            src={imageUrl}
             alt={title}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover transition-transform duration-300
+                       group-hover:scale-105"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-neopop-dark/80 to-transparent" />
         </div>
   
         {/* Content */}
         <div className="p-6">
-          <h3 className="text-2xl font-bold text-neopop-dark mb-2">{title}</h3>
+          <h3 className="text-2xl font-bold text-neopop-dark mb-2 
+                       group-hover:text-neopop-primary transition-colors duration-300">
+            {title}
+          </h3>
           <p className="text-neopop-dark mb-4">{description}</p>
   
           {/* Tags */}
@@ -190,36 +203,24 @@ const ProjectCard = ({ title, description, tags, githubUrl, demoUrl, image }) =>
             ))}
           </div>
   
-          {/* Links */}
-          <div className="flex gap-4">
+          {/* Demo Link - Only if provided */}
+          {demoUrl && (
             <a
-              href={githubUrl}
+              href={demoUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-1 px-4 py-2 bg-neopop-dark text-white text-center font-medium 
-                       rounded border-2 border-neopop-dark hover:bg-neopop-primary 
-                       transition-colors duration-300"
+              onClick={(e) => e.stopPropagation()}
+              className="inline-block px-4 py-2 bg-neopop-secondary text-neopop-dark 
+                       text-center font-medium rounded border-2 border-neopop-dark 
+                       hover:bg-neopop-light transition-colors duration-300"
             >
-              Dive Deeper
+              Live Demo
             </a>
-            {/* {demoUrl && (
-              <a
-                href={demoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 px-4 py-2 bg-neopop-secondary text-neopop-dark text-center 
-                         font-medium rounded border-2 border-neopop-dark 
-                         hover:bg-neopop-light transition-colors duration-300"
-              >
-                Live Demo
-              </a>
-            )} */}
-          </div>
+          )}
         </div>
-      </motion.div>
+      </motion.a>
     );
   };
-
 const Portfolio = () => {
   const [isRevealed, setIsRevealed] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
@@ -407,8 +408,8 @@ const Portfolio = () => {
       description: "A real-time cloud-based Notion integrated chat bot with job application tracker. Build with GCP and vertex AI to enable users to chat with their notion notes seamlessly while also keeping track of their job applications.",
       tags: ["GCP", "RAG", "Firebase", "Flask", "ML", "LLM"],
       githubUrl: "https://github.com/Neel-G-png/Talk2Doc",
-      demoUrl: "https://ai-chat-demo.com",
-      image: ""
+      demoUrl: null,
+      image: "Kevin.png"
     },
     {
         title: "LexiLens",
@@ -416,23 +417,31 @@ const Portfolio = () => {
         tags: ["AWS", "Rekognition", "Serverless", "Cloud Deployent"],
         githubUrl: "https://github.com/Neel-G-png/LexiLens",
         demoUrl: null,
-        image: "../assets/LexiLens.png"
+        image: "LexiLens.png"
     },
     {
       title: "NYC Crash No-Mo!",
       description: "A real time crash probability predictor based on road networks, weather, and traffic conditions.",
       tags: ["Pyspark", "Streamlit", "Big Data", "Dask"],
       githubUrl: "https://github.com/Neel-G-png/NYC-Crash-no-mo",
-      demoUrl: "https://dashboard-demo.com",
-      image: "/api/placeholder/400/320"
+      demoUrl: null,
+      image: "NYC-crash-nomo.png"
     },
     {
-        title: "Alfred The Dining Concierge",
+        title: "Lottery Scheduler xv6",
+        description: "A custom Lottery Scheduler implementation in x86 version of XV6",
+        tags: ["Operating System", "Scheduler", "C"],
+        githubUrl: "https://github.com/Neel-G-png/Lottery-Scheduler-XV6",
+        demoUrl: null,
+        image: "lottery_scheduler.jpg"
+    },
+    {
+        title: "Tiff, The Dining Concierge",
         description: "An AWS cloud-based chatbot built to provide restaurant recommendations. Users specify preferences via Lex, with requests processed through SQS and data fetched from OpenSearch and DynamoDB. Results are emailed using SES for a seamless experience.",
         tags: ["AWS", "Opensearch", "Lex", "DynamoDB"],
         githubUrl: "https://github.com/Neel-G-png/Alfred-Dining-Concierge",
-        demoUrl: "https://dashboard-demo.com",
-        image: "/api/placeholder/400/320"
+        demoUrl: null,
+        image: "Dining-concierge.png"
     },
     {
         title: "TIFU-KNN Next Basket Recommendation",
@@ -440,16 +449,16 @@ const Portfolio = () => {
         tags: ["Data Science", "Machine Learning", "Recommendation Systems"],
         githubUrl: "https://github.com/Neel-G-png/TIFU-KNN",
         demoUrl: null,
-        image: "/api/placeholder/400/320"
+        image: "tifu-knn.jpg"
     },
-    {
-      title: "Augmented Reality Photo Frame",
-      description: "An Augmented reality script to turn a static photo frame into an AR video player using OpenCV and Aruco markers.",
-      tags: ["OpenCV", "Computer Vision", "Fun"],
-      githubUrl: "https://github.com/Neel-G-png/AR-frame-gift",
-      demoUrl: null,
-      image: "/api/placeholder/400/320"
-    },
+    // {
+    //   title: "Augmented Reality Photo Frame",
+    //   description: "An Augmented reality script to turn a static photo frame into an AR video player using OpenCV and Aruco markers.",
+    //   tags: ["OpenCV", "Computer Vision", "Fun"],
+    //   githubUrl: "https://github.com/Neel-G-png/AR-frame-gift",
+    //   demoUrl: null,
+    //   image: "ar_photo_frame.jpg"
+    // },
     // Add more projects as needed
   ];
 
@@ -624,9 +633,9 @@ const Portfolio = () => {
           Projects
         </h2>
         
-        {/* <p className="text-center text-neopop-dark mb-12 text-lg">
-          Check out some of my recent work
-        </p> */}
+        <p className="text-center text-neopop-dark mb-12 text-lg">
+          Click the card to dive deeper!
+        </p>
 
         {/* Project Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -634,26 +643,6 @@ const Portfolio = () => {
             <ProjectCard key={index} {...project} />
           ))}
         </div>
-
-        {/* GitHub Profile Link */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="mt-16 text-center"
-        >
-          <a
-            href="https://github.com/Neel-G-png"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block bg-neopop-dark text-white px-8 py-4 rounded-lg
-                     border-4 border-neopop-secondary hover:bg-neopop-primary
-                     transition-all duration-300 shadow-neopop hover:shadow-neopop-lg
-                     font-bold text-lg"
-          >
-            Checkout my GitHub →
-          </a>
-        </motion.div>
       </motion.div>
     </section>
 
