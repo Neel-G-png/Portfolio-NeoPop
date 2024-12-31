@@ -5,7 +5,8 @@ import CuteSvg from './CuteSvg';
 import DisplayLottie from './DisplayLottie';
 import landingPerson from '../assets/lottie/landingPerson';
 import codingPerson from '../assets/lottie/codingPerson';
-import { Github, Linkedin, Mail } from 'lucide-react';
+import { Github, Linkedin, Mail, FileUser } from 'lucide-react';
+import resumePDF from '../assets/Neel_Gandhi_SWE_Resume.pdf'
 
 // Create the NeopopSection component separately
 const NeopopSection = ({ title, children, className = "" }) => {
@@ -272,7 +273,6 @@ const ProjectCard = ({ title, description, tags, githubUrl, demoUrl, image }) =>
 
 const Portfolio = () => {
     const [isRevealed, setIsRevealed] = useState(false);
-    //   const [activeSection, setActiveSection] = useState('home');
 
     // Refs for each section
     const homeRef = useRef(null);
@@ -572,6 +572,15 @@ const Portfolio = () => {
                                             className="text-neopop-dark hover:text-neopop-accent transition-colors duration-300"
                                         >
                                             <Mail size={32} />
+                                        </motion.a>
+                                        <motion.a
+                                            href={resumePDF}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            whileHover={{ y: -5 }}
+                                            className="text-neopop-dark hover:text-neopop-primary transition-colors duration-300"
+                                        >
+                                            <FileUser size={32} />
                                         </motion.a>
                                     </div>
                                 </motion.div>
