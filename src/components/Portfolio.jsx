@@ -485,7 +485,7 @@ const Portfolio = () => {
             <div className="fixed inset-0 bg-gradient-to-r from-neopop-primary/5 to-neopop-secondary/5 blur-3xl pointer-events-none" />
             {/* Floating Navigation */}
             <div className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50">
-                <nav className="px-4 py-2 bg-white/80 backdrop-blur-md rounded-full border-2 border-neopop-dark shadow-neopop">
+                <nav className="px-4 py-2 bg-white/30 backdrop-blur-md rounded-full border-2 border-neopop-dark shadow-neopop">
                     <ul className="flex items-center space-x-2">
                         {navItems.map((item) => (
                             <li key={item.id}>
