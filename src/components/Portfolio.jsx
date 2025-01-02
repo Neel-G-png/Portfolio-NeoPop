@@ -270,6 +270,15 @@ const ProjectCard = ({ title, description, tags, githubUrl, demoUrl, image }) =>
     );
 };
 
+const SkillCard = ({ name, icon }) => (
+    <div className="bg-white p-3 rounded-lg border-2 border-neopop-dark
+                    hover:bg-neopop-secondary transition-colors duration-300
+                    text-center font-medium shadow-neopop hover:shadow-neopop-lg"
+    >
+      <i className={`${icon} text-2xl mb-1`}></i>
+      <p className="text-sm">{name}</p>
+    </div>
+);
 
 const Portfolio = () => {
     const [isRevealed, setIsRevealed] = useState(false);
@@ -479,6 +488,62 @@ const Portfolio = () => {
         // Add more projects as needed
     ];
 
+    // const skills = {
+    //     languages: [
+    //       { name: "Python", icon: "fab fa-python" },
+    //       { name: "Golang", icon: "fab fa-golang" },
+    //     //   { name: "C", icon: "fab fa-c" },
+    //       { name: "JavaScript", icon: "fab fa-js" },
+    //       { name: "SQL", icon: "fa-solid fa-database" },
+    //     ],
+    //     frameworks: [
+    //       { name: "Django", icon: "fab fa-python" },
+    //       { name: "Flask", icon: "fab fa-python" },
+    //       { name: "PyTorch", icon: "fa-solid fa-fire-flame-curved" },
+    //     //   { name: "LangChain", icon: "fab fa-link" },
+    //       { name: "HuggingFace", icon: "fab fa-" },
+    //       { name: "HuggingFace", icon: "fab fa-" }
+    //     ],
+    //     tools: [
+    //       { name: "Docker", icon: "fab fa-docker" },
+    //       { name: "Kubernetes", icon: "fab fa-kubernetes" },
+    //       { name: "Kafka", icon: "fab fa-" }
+    //     ],
+    //     cloud: [
+    //       { name: "AWS", icon: "fab fa-" },
+    //       { name: "GCP", icon: "fab fa-" },
+    //       { name: "MongoDB", icon: "fab fa-" },
+    //       { name: "MySQL", icon: "fab fa-" }
+    //     ]
+    // };
+
+    const skills = [
+        { name: "Python", icon: "fab fa-python" },
+        { name: "SQL", icon: "fas fa-database" },
+        { name: "JavaScript", icon: "fab fa-js" },
+        { name: "C", icon: "fas fa-code" },
+        { name: "Golang", icon: "fab fa-golang" },
+        { name: "Docker", icon: "fab fa-docker" },
+        { name: "Kubernetes", icon: "fas fa-dharmachakra" },
+        { name: "Kafka", icon: "fas fa-stream" },
+        { name: "Postman", icon: "fas fa-paper-plane" },
+        { name: "RabbitMQ", icon: "fas fa-envelope-open" },
+        { name: "Django", icon: "fab fa-python" },
+        { name: "Flask", icon: "fab fa-python" },
+        { name: "Frappe", icon: "fas fa-cube" },
+        { name: "Spark", icon: "fas fa-bolt" },
+        { name: "PyTorch", icon: "fas fa-fire" },
+        { name: "LangChain", icon: "fas fa-link" },
+        { name: "HuggingFace", icon: "fas fa-robot" },
+        { name: "AWS", icon: "fab fa-aws" },
+        { name: "GCP", icon: "fab fa-google" },
+        { name: "MySQL", icon: "fas fa-database" },
+        { name: "MongoDB", icon: "fas fa-database" },
+        { name: "Snowflake", icon: "far fa-snowflake" },
+        { name: "Databricks", icon: "fas fa-bolt" },
+        { name: "DynamoDB", icon: "fas fa-database" }
+       ];
+
     return (
         <div className="relative min-h-screen">
             {/* Gradient */}
@@ -538,7 +603,7 @@ const Portfolio = () => {
                                                 : 'text-neopop-dark'
                                             }`}
                                     >
-                                        {isRevealed ? "I'm Neel, your next hire" : "Hi 👋, I'm Neel! Nice to meet you."}
+                                        {isRevealed ? "I'm Neel - Ready to make an Impact" : "Hi 👋, I'm Neel! Nice to meet you."}
                                     </motion.h1>
 
                                     {/* Rest of the content stays constant */}
@@ -601,7 +666,7 @@ const Portfolio = () => {
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={triggerConfetti}
-                                className="absolute bottom-8 left-8 px-6 py-3 bg-neopop-primary text-white 
+                                className="absolute bottom-15 left-8 px-6 py-3 bg-neopop-primary text-white 
                 rounded-lg shadow-neopop border-2 border-neopop-dark 
                 hover:bg-opacity-90 transition-all duration-300 text-base font-bold z-20"
                             >
@@ -614,85 +679,41 @@ const Portfolio = () => {
 
                     {/* Skills Section */}
                     <section ref={skillsRef} className="min-h-screen w-full relative">
-                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.8 }}
-                                viewport={{ once: true }}
-                                className="max-w-7xl mx-auto"
-                            >
-                                <h2 className="text-4xl font-bold text-center mb-12 
-                        bg-gradient-to-r from-neopop-primary to-neopop-secondary 
-                        text-transparent bg-clip-text">
-                                    Skills
-                                </h2>
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+                        <h2 className="text-4xl font-bold text-center mb-12 
+                                    bg-gradient-to-r from-neopop-primary to-neopop-secondary 
+                                    text-transparent bg-clip-text">
+                        Skills
+                        </h2>
 
-                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                                    {/* Left Side - Lottie Animation */}
-                                    <motion.div
-                                        initial={{ opacity: 0, x: -50 }}
-                                        whileInView={{ opacity: 1, x: 0 }}
-                                        transition={{ duration: 0.8 }}
-                                        viewport={{ once: true }}
-                                        className="relative h-[500px] flex items-center justify-center lg:order-1"
-                                    >
-                                        <DisplayLottie animationData={codingPerson} />
-                                    </motion.div>
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                        {/* Left Side - Lottie Animation */}
+                        <motion.div
+                            initial={{ opacity: 0, x: -50 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.8 }}
+                            viewport={{ once: true }}
+                            className="relative h-[500px] flex items-center justify-center"
+                        >
+                            <DisplayLottie animationData={codingPerson} />
+                        </motion.div>
 
-                                    {/* Right Side - Skills Content */}
-                                    <motion.div
-                                        initial={{ opacity: 0, x: 50 }}
-                                        whileInView={{ opacity: 1, x: 0 }}
-                                        transition={{ duration: 0.8 }}
-                                        viewport={{ once: true }}
-                                        className="space-y-8 lg:order-2"
-                                    >
-                                        {/* Skills Categories */}
-                                        <div>
-                                            <h3 className="text-2xl font-bold text-neopop-dark mb-6">Technologies</h3>
-                                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                                                {["React", "Node.js", "Python", "JavaScript", "TypeScript", "MongoDB"].map((skill) => (
-                                                    <div
-                                                        key={skill}
-                                                        className="bg-neopop-light p-4 rounded-lg border-4 border-neopop-dark
-                                hover:bg-neopop-secondary transition-colors duration-300
-                                text-center font-bold shadow-neopop hover:shadow-neopop-lg"
-                                                    >
-                                                        {skill}
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-
-                                        {/* Tools */}
-                                        <div>
-                                            <h3 className="text-2xl font-bold text-neopop-dark mb-6">Tools & Platforms</h3>
-                                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                                                {["Git", "Docker", "AWS", "VS Code", "Figma", "Jira"].map((tool) => (
-                                                    <div
-                                                        key={tool}
-                                                        className="bg-neopop-light p-4 rounded-lg border-4 border-neopop-dark
-                                hover:bg-neopop-primary hover:text-white transition-colors duration-300
-                                text-center font-bold shadow-neopop hover:shadow-neopop-lg"
-                                                    >
-                                                        {tool}
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-
-                                        {/* Additional Skills or Summary */}
-                                        <div className="bg-white border-4 border-neopop-dark rounded-lg p-6 shadow-neopop">
-                                            <p className="text-lg text-neopop-dark">
-                                                Passionate about clean code, performance optimization, and creating
-                                                seamless user experiences. Always eager to learn and adapt to new technologies.
-                                            </p>
-                                        </div>
-                                    </motion.div>
-                                </div>
-                            </motion.div>
+                        {/* Right Side - Skills Grid */}
+                        <motion.div
+                        initial={{ opacity: 0, x: 50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.8 }}
+                        viewport={{ once: true }}
+                        className="space-y-8"
+                        >
+                        <div className="grid grid-cols-3 md:grid-cols-4 gap-3">
+                        {skills.map((skill) => (
+                            <SkillCard key={skill.name} {...skill} />
+                        ))}
                         </div>
+                        </motion.div>
+                        </div>
+                    </div>
                     </section>
 
                     {/* Other sections remain the same */}
