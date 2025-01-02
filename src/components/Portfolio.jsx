@@ -596,7 +596,7 @@ const Portfolio = () => {
                                                 : 'text-neopop-dark'
                                             }`}
                                     >
-                                        {isRevealed ? "I'm Neel - Ready to make an Impact" : "Hi 👋, I'm Neel! Nice to meet you."}
+                                        {isRevealed ? "I'm Neel - You're next hire 🤞" : "Hi 👋, I'm Neel! Nice to meet you."}
                                     </motion.h1>
 
                                     {/* Rest of the content stays constant */}
