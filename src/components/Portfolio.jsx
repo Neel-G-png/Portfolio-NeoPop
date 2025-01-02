@@ -270,19 +270,31 @@ const ProjectCard = ({ title, description, tags, githubUrl, demoUrl, image }) =>
     );
 };
 
-const SkillCard = ({ name, icon }) => (
-    <div className="bg-white p-3 rounded-lg border-2 border-neopop-dark
-                    hover:bg-neopop-secondary transition-colors duration-300
-                    text-center font-medium shadow-neopop hover:shadow-neopop-lg"
-    >
-      <i className={`${icon} text-2xl mb-1`}></i>
-      <p className="text-sm">{name}</p>
-    </div>
+// const SkillCard = ({ name, icon, className = '' }) => (
+//     <div className={`bg-white p-3 rounded-lg border-2 border-neopop-dark
+//                      hover:bg-neopop-secondary transition-colors duration-300
+//                      text-center font-medium shadow-neopop hover:shadow-neopop-lg
+//                      ${className}`}
+//     >
+//       <i className={`${icon} text-2xl mb-1`}></i>
+//       <p className="text-sm">{name}</p>
+//     </div>
+//    );
+
+const SkillCard = ({ name, icon, className = '' }) => (
+<div className={`bg-white p-3 rounded-lg border-2 border-neopop-dark
+                    hover:shadow-neopop transition-all duration-300
+                    text-center font-medium
+                    ${className}`}
+>
+    <i className={`${icon} text-2xl mb-1 ${className.includes('border-neopop-primary') ? 'text-neopop-primary' : ''}`}></i>
+    <p className="text-sm">{name}</p>
+</div>
 );
 
 const Portfolio = () => {
     const [isRevealed, setIsRevealed] = useState(false);
-
+    const [activeTab, setActiveTab] = useState("All");
     // Refs for each section
     const homeRef = useRef(null);
     const skillsRef = useRef(null);
@@ -317,6 +329,9 @@ const Portfolio = () => {
         console.log('Current section:', currentSection);
     }, [currentSection]);
 
+    useEffect(() => {
+        skillCategories.All = skills.map(s => s.name);
+    }, []);
     // Navigation items in the correct order
     const navItems = [
         { id: 'home', label: 'Home', ref: homeRef },
@@ -488,34 +503,12 @@ const Portfolio = () => {
         // Add more projects as needed
     ];
 
-    // const skills = {
-    //     languages: [
-    //       { name: "Python", icon: "fab fa-python" },
-    //       { name: "Golang", icon: "fab fa-golang" },
-    //     //   { name: "C", icon: "fab fa-c" },
-    //       { name: "JavaScript", icon: "fab fa-js" },
-    //       { name: "SQL", icon: "fa-solid fa-database" },
-    //     ],
-    //     frameworks: [
-    //       { name: "Django", icon: "fab fa-python" },
-    //       { name: "Flask", icon: "fab fa-python" },
-    //       { name: "PyTorch", icon: "fa-solid fa-fire-flame-curved" },
-    //     //   { name: "LangChain", icon: "fab fa-link" },
-    //       { name: "HuggingFace", icon: "fab fa-" },
-    //       { name: "HuggingFace", icon: "fab fa-" }
-    //     ],
-    //     tools: [
-    //       { name: "Docker", icon: "fab fa-docker" },
-    //       { name: "Kubernetes", icon: "fab fa-kubernetes" },
-    //       { name: "Kafka", icon: "fab fa-" }
-    //     ],
-    //     cloud: [
-    //       { name: "AWS", icon: "fab fa-" },
-    //       { name: "GCP", icon: "fab fa-" },
-    //       { name: "MongoDB", icon: "fab fa-" },
-    //       { name: "MySQL", icon: "fab fa-" }
-    //     ]
-    // };
+    const skillCategories = {
+        "Data Science": ["Python", "PyTorch", "HuggingFace", "LangChain"],
+        "Data Engineering": ["Python", "Spark", "Kafka", "Docker", "RabbitMQ","Kubernetes", "AWS", "GCP"],
+        "Data Analytics": ["Python", "SQL", "MySQL", "MongoDB", "Snowflake", "Databricks"],
+        "All": [] // Will be populated with all skills
+    };
 
     const skills = [
         { name: "Python", icon: "fab fa-python" },
@@ -699,18 +692,53 @@ const Portfolio = () => {
                         </motion.div>
 
                         {/* Right Side - Skills Grid */}
-                        <motion.div
-                        initial={{ opacity: 0, x: 50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.8 }}
-                        viewport={{ once: true }}
-                        className="space-y-8"
-                        >
-                        <div className="grid grid-cols-3 md:grid-cols-4 gap-3">
-                        {skills.map((skill) => (
-                            <SkillCard key={skill.name} {...skill} />
-                        ))}
-                        </div>
+                        <motion.div className="space-y-8">
+                            {/* Tabs */}
+                            <div className="flex justify-center mb-8">
+                            <div className="px-2 py-1 bg-white/90 backdrop-blur-md rounded-full border-2 border-neopop-dark shadow-neopop inline-flex">
+                                {Object.keys(skillCategories).map((category, index) => (
+                                <button
+                                    key={category}
+                                    onClick={() => setActiveTab(category)}
+                                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 relative
+                                            ${activeTab === category 
+                                                ? 'text-neopop-primary' 
+                                                : 'text-neopop-dark hover:text-neopop-primary'}`}
+                                >
+                                    {category}
+                                    {activeTab === category && (
+                                    <motion.div
+                                        layoutId="activeTab"
+                                        className="absolute inset-0 bg-neopop-light rounded-full -z-10"
+                                        transition={{ type: "spring", duration: 0.5 }}
+                                    />
+                                    )}
+                                </button>
+                                ))}
+                            </div>
+                            </div>
+
+                            {/* Skills Grid */}
+                            <div className="grid grid-cols-3 md:grid-cols-4 gap-3">
+                            {skills.map((skill) => {
+                                const isActive = skillCategories[activeTab].includes(skill.name);
+                                return (
+                                <motion.div
+                                    key={skill.name}
+                                    animate={{
+                                    // Removed the y transform, keeping a subtle scale if you want
+                                    scale: isActive ? 1.02 : 1
+                                    }}
+                                    transition={{ duration: 0.2 }}
+                                >
+                                    <SkillCard 
+                                    {...skill} 
+                                    className={isActive ? 'border-neopop-primary bg-gradient-to-br from-neopop-primary/10 to-neopop-secondary/10' : ''}
+                                    />
+                                </motion.div>
+                                );
+                            })}
+                            </div>
                         </motion.div>
                         </div>
                     </div>
